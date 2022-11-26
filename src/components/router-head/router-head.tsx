@@ -27,6 +27,10 @@ export const RouterHead = component$(() => {
       {head.styles.map((s) => (
         <style {...s.props} dangerouslySetInnerHTML={s.style} />
       ))}
+
+      <script>
+        var global = global || window;
+      </script>
     </>
   );
 });
