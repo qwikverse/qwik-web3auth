@@ -1,6 +1,6 @@
-import { component$, $, useContext, noSerialize } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
-import { Web3AuthStoreContext } from '~/context';
+import { component$, $, useContext, noSerialize } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import { Web3AuthStoreContext } from "~/context";
 import RPC from "../../models/web3RPC";
 
 export default component$(() => {
@@ -99,57 +99,82 @@ export default component$(() => {
     const privateKey = await rpc.getPrivateKey();
     uiConsole$(privateKey);
   });
-  
+
   return (
     <div class="container">
-      <h1 class="title">
-          Web3Auth + Qwik
-      </h1>
+      <h1 class="title">Web3Auth + Qwik</h1>
 
       <div class="grid-container">
         <div class="flex-container">
           <div>
-            <button onClick$={getUserInfo$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={getUserInfo$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Get User Info
             </button>
           </div>
           <div>
-            <button onClick$={authenticateUser$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={authenticateUser$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Get ID Token
             </button>
           </div>
           <div>
-            <button onClick$={getChainId$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={getChainId$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Get Chain ID
             </button>
           </div>
           <div>
-            <button onClick$={getAccounts$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={getAccounts$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Get Accounts
             </button>
           </div>
           <div>
-            <button onClick$={getBalance$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={getBalance$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Get Balance
             </button>
           </div>
           <div>
-            <button onClick$={signMessage$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={signMessage$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Sign Message
             </button>
           </div>
           <div>
-            <button onClick$={sendTransaction$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={sendTransaction$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Send Transaction
             </button>
           </div>
           <div>
-            <button onClick$={getPrivateKey$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={getPrivateKey$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Get Private Key
             </button>
           </div>
           <div>
-            <button onClick$={logout$} class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full">
+            <button
+              onClick$={logout$}
+              class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
+            >
               Log Out
             </button>
           </div>
@@ -158,17 +183,16 @@ export default component$(() => {
           <p style={{ whiteSpace: "pre-line" }}></p>
         </div>
       </div>
-    
-  </div>
+    </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: 'Dashboard',
+  title: "Dashboard",
   meta: [
     {
-      name: 'description',
-      content: 'The greatest loyalty dashboard',
+      name: "description",
+      content: "The greatest loyalty dashboard",
     },
   ],
 };

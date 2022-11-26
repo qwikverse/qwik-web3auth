@@ -1,12 +1,23 @@
-import { component$, noSerialize, useClientEffect$, useContextProvider, useSignal, useStore, $ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
-import { Web3AuthStoreContext } from '~/context';
-import { Web3authStore } from '~/types';
+import {
+  component$,
+  noSerialize,
+  useClientEffect$,
+  useContextProvider,
+  useSignal,
+  useStore,
+  $,
+} from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import { Web3AuthStoreContext } from "~/context";
+import { Web3authStore } from "~/types";
 import * as web3authModal from "@web3auth/modal";
-import { clientId } from '~/shared/constant';
-import * as web3authBase  from "@web3auth/base";
-import * as openLogin  from "@web3auth/openlogin-adapter";
-import Dashboard from '~/components/dashboard';
+import { clientId } from "~/shared/constant";
+import * as web3authBase from "@web3auth/base";
+import * as openLogin from "@web3auth/openlogin-adapter";
+import Dashboard from "~/components/dashboard";
+import Welcome from "~/components/welcome";
+import Signin from "~/components/signin";
+import Header from "~/components/header/header";
 
 export default component$(() => {
   const loading = useSignal(true);
@@ -15,10 +26,10 @@ export default component$(() => {
     web3authCore: noSerialize(undefined),
     adapter: noSerialize(undefined),
     provider: noSerialize(undefined),
-    loading: true
+    loading: true,
   });
 
-   const login$ = $(async() => {
+  const login$ = $(async () => {
     if (!state.web3auth) {
       console.log("web3auth not initialized yet");
       return;
@@ -26,7 +37,7 @@ export default component$(() => {
     const web3authProvider = await state.web3auth.connect();
     web3authProvider && (state.provider = noSerialize(web3authProvider));
   });
-  
+
   useContextProvider(Web3AuthStoreContext, state);
 
   useClientEffect$(async () => {
@@ -39,19 +50,19 @@ export default component$(() => {
         },
         uiConfig: {
           theme: "light",
-          appLogo: "icon.png",
-        }
+          appLogo: "qwikverse.png",
+        },
       });
 
       const adapter = new openLogin.OpenloginAdapter({
         adapterSettings: {
           clientId,
           network: "testnet",
-          uxMode: "popup", 
+          uxMode: "popup",
           whiteLabel: {
-            name: "Your app Name",
-            logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-            logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+            name: "Qwikverse",
+            logoLight: "qwikverse.png",
+            logoDark: "qwikverse.png",
             defaultLanguage: "en",
             dark: true, // whether to enable dark mode. defaultValue: false
           },
@@ -59,7 +70,7 @@ export default component$(() => {
       });
 
       await web3auth.initModal().finally(() => {
-        loading.value = false;
+        state.loading = false;
       });
       state.adapter = noSerialize(adapter);
       state.web3auth = noSerialize(web3auth);
@@ -71,41 +82,33 @@ export default component$(() => {
     } catch (error) {
       console.error(error);
     }
-  })
+    login$();
+  });
 
-  const signin = (
-    <>
-      <a class="button" onClick$={login$} style="--color: #ff1867;">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        Enter
-      </a>
-    </>
-  );
   return (
-    <div>
-      <h1>
-        Qwikverse Coin 
-      </h1>
-      {
-        state.provider
-          ? <Dashboard />
-          : signin
-      }
-      
-
-    </div>
+    <>
+      {state.loading ? (
+        <div>
+          <Welcome />
+        </div>
+      ) : state.provider ? (
+        <div>
+          <Header />
+          <Dashboard />
+        </div>
+      ) : (
+        ""
+      )}
+    </>
   );
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: "Welcome to Qwik",
   meta: [
     {
-      name: 'description',
-      content: 'Qwik site description',
+      name: "description",
+      content: "Qwik site description",
     },
   ],
 };
