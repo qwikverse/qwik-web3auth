@@ -1,135 +1,101 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, noSerialize, useClientEffect$, useContextProvider, useSignal, useStore, $ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import { Link } from '@builder.io/qwik-city';
+import { Web3AuthStoreContext } from '~/context';
+import { Web3authStore } from '~/types';
+import * as web3authModal from "@web3auth/modal";
+import { clientId } from '~/shared/constant';
+import * as web3authBase  from "@web3auth/base";
+import * as openLogin  from "@web3auth/openlogin-adapter";
+import Dashboard from '~/components/dashboard';
 
 export default component$(() => {
+  const loading = useSignal(true);
+  const state = useStore<Web3authStore>({
+    web3auth: noSerialize(undefined),
+    web3authCore: noSerialize(undefined),
+    adapter: noSerialize(undefined),
+    provider: noSerialize(undefined),
+    loading: true
+  });
+
+   const login$ = $(async() => {
+    if (!state.web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    const web3authProvider = await state.web3auth.connect();
+    web3authProvider && (state.provider = noSerialize(web3authProvider));
+  });
+  
+  useContextProvider(Web3AuthStoreContext, state);
+
+  useClientEffect$(async () => {
+    try {
+      const web3auth = new web3authModal.Web3Auth({
+        clientId,
+        chainConfig: {
+          chainNamespace: web3authBase.CHAIN_NAMESPACES.EIP155,
+          chainId: "0x1",
+        },
+        uiConfig: {
+          theme: "light",
+          appLogo: "icon.png",
+        }
+      });
+
+      const adapter = new openLogin.OpenloginAdapter({
+        adapterSettings: {
+          clientId,
+          network: "testnet",
+          uxMode: "popup", 
+          whiteLabel: {
+            name: "Your app Name",
+            logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+            logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+            defaultLanguage: "en",
+            dark: true, // whether to enable dark mode. defaultValue: false
+          },
+        },
+      });
+
+      await web3auth.initModal().finally(() => {
+        loading.value = false;
+      });
+      state.adapter = noSerialize(adapter);
+      state.web3auth = noSerialize(web3auth);
+      state.web3auth?.configureAdapter(adapter);
+
+      if (web3auth?.provider) {
+        state.provider = noSerialize(web3auth?.provider);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  })
+
+  const signin = (
+    <>
+      <a class="button" onClick$={login$} style="--color: #ff1867;">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Enter
+      </a>
+    </>
+  );
   return (
     <div>
       <h1>
-        Welcome to Qwik <span class="lightning">⚡️</span>
+        Qwikverse Coin 
       </h1>
+      {
+        state.provider
+          ? <Dashboard />
+          : signin
+      }
+      
 
-      <ul>
-        <li>
-          Check out the <code>src/routes</code> directory to get started.
-        </li>
-        <li>
-          Add integrations with <code>npm run qwik add</code>.
-        </li>
-        <li>
-          More info about development in <code>README.md</code>
-        </li>
-      </ul>
-
-      <h2>Commands</h2>
-
-      <table class="commands">
-        <tr>
-          <td>
-            <code>npm run dev</code>
-          </td>
-          <td>Start the dev server and watch for changes.</td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run preview</code>
-          </td>
-          <td>Production build and start preview server.</td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run build</code>
-          </td>
-          <td>Production build.</td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add</code>
-          </td>
-          <td>Select an integration to add.</td>
-        </tr>
-      </table>
-
-      <h2>Add Integrations</h2>
-
-      <table class="commands">
-        <tr>
-          <td>
-            <code>npm run qwik add cloudflare-pages</code>
-          </td>
-          <td>
-            <a href="https://developers.cloudflare.com/pages" target="_blank">
-              Cloudflare Pages Server
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add express</code>
-          </td>
-          <td>
-            <a href="https://expressjs.com/" target="_blank">
-              Nodejs Express Server
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add netlify-edge</code>
-          </td>
-          <td>
-            <a href="https://docs.netlify.com/" target="_blank">
-              Netlify Edge Functions
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <code>npm run qwik add static</code>
-          </td>
-          <td>
-            <a
-              href="https://qwik.builder.io/qwikcity/static-site-generation/overview/"
-              target="_blank"
-            >
-              Static Site Generation (SSG)
-            </a>
-          </td>
-        </tr>
-      </table>
-
-      <h2>Community</h2>
-
-      <ul>
-        <li>
-          <span>Questions or just want to say hi? </span>
-          <a href="https://qwik.builder.io/chat" target="_blank">
-            Chat on discord!
-          </a>
-        </li>
-        <li>
-          <span>Follow </span>
-          <a href="https://twitter.com/QwikDev" target="_blank">
-            @QwikDev
-          </a>
-          <span> on Twitter</span>
-        </li>
-        <li>
-          <span>Open issues and contribute on </span>
-          <a href="https://github.com/BuilderIO/qwik" target="_blank">
-            GitHub
-          </a>
-        </li>
-        <li>
-          <span>Watch </span>
-          <a href="https://qwik.builder.io/media/" target="_blank">
-            Presentations, Podcasts, Videos, etc.
-          </a>
-        </li>
-      </ul>
-      <Link class="mindblow" href="/flower/">
-        Blow my mind 🤯
-      </Link>
     </div>
   );
 });

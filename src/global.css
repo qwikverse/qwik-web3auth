@@ -2,120 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --qwik-dark-blue: #006ce9;
-  --qwik-light-blue: #18b6f6;
-  --qwik-light-purple: #ac7ff4;
-  --qwik-dark-purple: #713fc2;
+/**
+ * WHAT IS THIS FILE?
+ *
+ * Globally applied styles. No matter which components are in the page or matching route,
+ * the styles in here will be applied to the Document, without any sort of CSS scoping.
+ *
+ */
+
+ .container {
+	width: 60%;
+	margin: auto;
+	padding: 0;
 }
 
-body {
-  background-color: #fafafa;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  padding: 20px 20px 40px 20px;
+.main {
+	min-height: 100vh;
+	padding: 4rem 0;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
-main {
-  max-width: 760px;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0px 0px 130px -50px var(--qwik-light-purple);
-  overflow: hidden;
+.title {
+	line-height: 1.15;
+	font-size: 3rem;
+	text-align: center;
+	margin: 50px;
 }
 
-h1,
-h2 {
-  margin: 0 0 5px 0;
+.title a {
+	color: #0070f3;
+	text-decoration: none;
 }
 
-.lightning {
-  filter: hue-rotate(180deg);
+.grid-container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
-section {
-  padding: 20px;
-  border-bottom: 10px solid var(--qwik-dark-blue);
+.card {
+	margin: 0.5rem;
+	padding: 0.7rem;
+	text-align: center;
+	color: #0070f3;
+	background-color: #fafafa;
+	text-decoration: none;
+	border: 1px solid #0070f3;
+	border-radius: 10px;
+	transition: color 0.15s ease, border-color 0.15s ease;
+	width: 100%;
 }
 
-ul {
-  list-style-type: square;
-  margin: 5px 0 30px 0;
-  padding-left: 25px;
+.card:hover,
+.card:focus,
+.card:active {
+	cursor: pointer;
+	background-color: #f1f1f1;
 }
 
-li {
-  padding: 8px 0;
+.footer {
+	display: flex;
+	flex: 1;
+	padding: 2rem 0;
+	border-top: 1px solid #eaeaea;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10rem;
 }
 
-li::marker {
-  color: var(--qwik-light-blue);
+.footer a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
 }
 
-a,
-a:visited {
-  color: var(--qwik-dark-blue);
+.logo {
+	height: 1.5rem;
+	margin-left: 0.5rem;
 }
 
-a:hover {
-  text-decoration: none;
+@media (max-width: 1200px) {
+	.container {
+		width: 100%;
+	}
 }
 
-table.commands {
-  margin: 0 0 30px 0;
+.flex-container {
+	display: flex;
+	flex-flow: row wrap;
 }
 
-.commands td {
-  padding: 5px;
+.flex-container > div {
+	width: 100px;
+	margin: 10px;
+	text-align: center;
+	line-height: 75px;
+	font-size: 30px;
 }
 
-.commands td:first-child {
-  white-space: nowrap;
-  padding-right: 20px;
-}
-
-code {
-  font-family: Menlo, Monaco, Courier New, monospace;
-  font-size: 0.9em;
-  background-color: rgb(224, 224, 224);
-  padding: 2px 4px;
-  border-radius: 3px;
-  border-bottom: 2px solid #bfbfbf;
-}
-
-footer {
-  padding: 15px;
-  text-align: center;
-  font-size: 0.8em;
-}
-
-footer a {
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-a.mindblow {
-  margin: 0 auto;
-  display: block;
-  background: var(--qwik-light-purple);
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 0;
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  width: fit-content;
-  border-bottom: 4px solid black;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🤯</text></svg>")
-      16 0,
-    auto; /*!emojicursor.app*/
-}
-
-a.mindblow:hover {
-  border-bottom-width: 0px;
-  margin-bottom: 4px;
-  transform: translateY(4px);
+#console {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	word-wrap: break-word;
+	font-size: 16px;
+	font-family: monospace;
 }
