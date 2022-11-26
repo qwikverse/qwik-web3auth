@@ -4,7 +4,6 @@ import {
   useClientEffect$,
   useContextProvider,
   useStore,
-  $,
 } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Web3AuthStoreContext } from "~/context";
@@ -27,14 +26,14 @@ export default component$(() => {
     loading: true,
   });
 
-  const login$ = $(async () => {
-    if (!state.web3auth) {
-      console.log("web3auth not initialized yet");
-      return;
-    }
-    const web3authProvider = await state.web3auth.connect();
-    web3authProvider && (state.provider = noSerialize(web3authProvider));
-  });
+  // const login$ = $(async () => {
+  //   if (!state.web3auth) {
+  //     console.log("web3auth not initialized yet");
+  //     return;
+  //   }
+  //   const web3authProvider = await state.web3auth.connect();
+  //   web3authProvider && (state.provider = noSerialize(web3authProvider));
+  // });
 
   useContextProvider(Web3AuthStoreContext, state);
 
