@@ -1,20 +1,14 @@
-import { component$, useContext, useStore, useStyles$ } from "@builder.io/qwik";
+import { component$, useStore, useStyles$ } from "@builder.io/qwik";
 import { DocumentHead } from "@builder.io/qwik-city";
 import { QwikLottie } from "qwik-lottie";
-import { Web3AuthStoreContext } from "~/context";
 import styles from './style.css?inline'
 
 export default component$(() => {
     useStyles$(styles);
-    const state = useContext(Web3AuthStoreContext);
+    // const state = useContext(Web3AuthStoreContext);
     const astronaut = useStore({
         options: {
         path: "https://assets7.lottiefiles.com/packages/lf20_5gkEN24YTZ.json",
-        },
-    });
-    const shootingStar = useStore({
-        options: {
-        path: "https://assets3.lottiefiles.com/private_files/lf30_17bemuas.json",
         },
     });
     const loading = useStore({
