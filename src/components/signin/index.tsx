@@ -23,14 +23,14 @@ export default component$(() => {
     }
   });
 
-  // const login$ = $(async() => {
-  //   if (!state.web3auth) {
-  //     console.log("web3auth not initialized yet");
-  //     return;
-  //   }
-  //   const web3authProvider = await state.web3auth.connect();
-  //   web3authProvider && (state.provider = noSerialize(web3authProvider));
-  // });
+  const login$ = $(async() => {
+    if (!state.web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    const web3authProvider = await state.web3auth.connect();
+    web3authProvider && (state.provider = noSerialize(web3authProvider));
+  });
 
   const customLogin$ = $(async (login: LoginProvider) => {
     if (state.adapter) {
@@ -240,19 +240,12 @@ export default component$(() => {
             </div>
             <div class="mt-8">
               <button
+                onClick$={login$}
                 role="button"
                 class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-blue-700 border rounded hover:bg-indigo-600 py-4 w-full"
               >
-                Continue with Email
+                Enter
               </button>
-            </div>
-          </div>
-          <div class="xl:w-1/2 md:w-1/2 lg:ml-16 ml-8 md:mt-0 mt-6">
-            <div class="pl-8 md:block hidden">
-              <img
-                src="https://templatekit.jegtheme.com/acco/wp-content/uploads/sites/50/2021/02/illustration-hero-new.png"
-                alt="logo"
-              />
             </div>
           </div>
         </div>

@@ -3,7 +3,6 @@ import {
   noSerialize,
   useClientEffect$,
   useContextProvider,
-  useSignal,
   useStore,
   $,
 } from "@builder.io/qwik";
@@ -16,11 +15,10 @@ import * as web3authBase from "@web3auth/base";
 import * as openLogin from "@web3auth/openlogin-adapter";
 import Dashboard from "~/components/dashboard";
 import Welcome from "~/components/welcome";
-import Signin from "~/components/signin";
 import Header from "~/components/header/header";
+import Signin from "~/components/signin";
 
 export default component$(() => {
-  const loading = useSignal(true);
   const state = useStore<Web3authStore>({
     web3auth: noSerialize(undefined),
     web3authCore: noSerialize(undefined),
@@ -69,12 +67,13 @@ export default component$(() => {
         },
       });
 
-      await web3auth.initModal().finally(() => {
-        state.loading = false;
-      });
       state.adapter = noSerialize(adapter);
       state.web3auth = noSerialize(web3auth);
       state.web3auth?.configureAdapter(adapter);
+
+      // await web3auth.initModal().finally(() => {
+      //   state.loading = false;
+      // });
 
       if (web3auth?.provider) {
         state.provider = noSerialize(web3auth?.provider);
@@ -82,7 +81,6 @@ export default component$(() => {
     } catch (error) {
       console.error(error);
     }
-    login$();
   });
 
   return (
@@ -97,7 +95,7 @@ export default component$(() => {
           <Dashboard />
         </div>
       ) : (
-        ""
+        <Signin />
       )}
     </>
   );
